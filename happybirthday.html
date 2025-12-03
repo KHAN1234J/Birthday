@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Sara!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            overflow-x: hidden;
+            /* Prevent rubber-banding on mobile */
+            overscroll-behavior-y: none;
+        }
+        
+        .cursive-font {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        /* Floating Animation for elements */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .float-delay-1 { animation-delay: 1s; }
+        .float-delay-2 { animation-delay: 2s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); } /* Reduced movement for mobile stability */
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Balloon Strings */
+        .string {
+            height: 60px;
+            width: 2px;
+            background: rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(to right, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hidden class for surprise reveal */
+        .hidden-content {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reveal {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center relative bg-gradient-to-br from-rose-100 via-purple-100 to-indigo-100 py-6">
+
+    <!-- Canvas for Confetti - Changed to Fixed to cover screen during scroll -->
+    <canvas id="confetti-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-50"></canvas>
+
+    <!-- Background Decorations (Blobs) -->
+    <div class="absolute top-0 left-0 w-48 h-48 md:w-64 md:h-64 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+    <div class="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-10 md:left-20 w-56 h-56 md:w-72 md:h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+
+    <!-- Main Container -->
+    <main class="relative z-10 w-full max-w-md md:max-w-lg px-4">
+        
+        <!-- Balloons Container -->
+        <div class="flex justify-center space-x-3 md:space-x-4 mb-2 md:mb-4 opacity-90">
+            <div class="text-center float">
+                <div class="w-14 h-16 md:w-16 md:h-20 bg-red-400 rounded-full rounded-b-xl shadow-lg relative overflow-hidden">
+                    <div class="absolute top-2 left-2 w-3 h-6 md:w-4 md:h-8 bg-white opacity-20 rounded-full transform -rotate-12"></div>
+                </div>
+                <div class="string h-12 md:h-16"></div>
+            </div>
+            <div class="text-center float float-delay-1">
+                <div class="w-14 h-16 md:w-16 md:h-20 bg-purple-400 rounded-full rounded-b-xl shadow-lg relative overflow-hidden">
+                    <div class="absolute top-2 left-2 w-3 h-6 md:w-4 md:h-8 bg-white opacity-20 rounded-full transform -rotate-12"></div>
+                </div>
+                <div class="string h-12 md:h-16"></div>
+            </div>
+            <div class="text-center float float-delay-2">
+                <div class="w-14 h-16 md:w-16 md:h-20 bg-yellow-400 rounded-full rounded-b-xl shadow-lg relative overflow-hidden">
+                    <div class="absolute top-2 left-2 w-3 h-6 md:w-4 md:h-8 bg-white opacity-20 rounded-full transform -rotate-12"></div>
+                </div>
+                <div class="string h-12 md:h-16"></div>
+            </div>
+        </div>
+
+        <!-- Card -->
+        <div class="glass-card rounded-3xl p-6 md:p-8 text-center transform transition-all duration-500">
+            <span class="inline-block px-3 py-1 mb-3 md:mb-4 text-[10px] md:text-xs font-bold tracking-wider text-pink-500 uppercase bg-pink-100 rounded-full">It's Your Special Day</span>
+            
+            <h1 class="text-5xl md:text-6xl cursive-font gradient-text mb-1 leading-tight py-1">Happy Birthday</h1>
+            <h2 class="text-4xl md:text-5xl cursive-font text-gray-800 mb-4 md:mb-6">Sara!</h2>
+            
+            <p class="text-gray-600 mb-6 md:mb-8 text-base md:text-lg leading-relaxed px-2">
+                Wishing you a day filled with love, laughter, and all the things that make you smile. May this year be your best one yet!
+            </p>
+
+            <!-- Interactive Button - Active state for mobile touch -->
+            <button onclick="celebrate()" id="surpriseBtn" class="w-full md:w-auto group relative inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-3 text-base md:text-lg font-bold text-white transition-all duration-200 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full shadow-lg hover:shadow-xl hover:from-pink-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transform active:scale-95 touch-manipulation">
+                <span class="mr-2">🎁</span> Tap for a Surprise!
+                <div class="absolute inset-0 rounded-full ring-2 ring-white/20 group-hover:ring-white/40 animate-pulse"></div>
+            </button>
+
+            <!-- Hidden Message / Extra Wish -->
+            <div id="hiddenMessage" class="hidden-content mt-6 md:mt-8 p-4 bg-white/50 rounded-xl border border-white/60">
+                <p class="text-xl text-purple-700 font-semibold cursive-font">"Keep shining bright!" ✨</p>
+                <div class="mt-2 text-sm text-gray-500">Sending you huge virtual hugs!</div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-gray-500 text-sm font-medium">Made with ❤️ for you</p>
+        </div>
+    </main>
+
+    <script>
+        // --- Confetti Engine ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let particles = [];
+        let animationId;
+
+        // Resize canvas - Handle mobile orientation changes better
+        window.addEventListener('resize', () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        });
+        canvas.width = width;
+        canvas.height = height;
+
+        const colors = ['#ec4899', '#8b5cf6', '#eab308', '#3b82f6', '#10b981'];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.rotation = Math.random() * 360;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.size = Math.random() * 8 + 4;
+                // Slower fall speed for mobile clarity
+                this.speedY = Math.random() * 3 + 2; 
+                this.speedX = Math.random() * 2 - 1;
+                this.rotationSpeed = Math.random() * 2 - 1;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > height) {
+                    this.y = -10;
+                    this.x = Math.random() * width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function initConfetti() {
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            animationId = requestAnimationFrame(animateConfetti);
+        }
+
+        // --- Interaction Logic ---
+        function celebrate() {
+            const btn = document.getElementById('surpriseBtn');
+            const message = document.getElementById('hiddenMessage');
+            
+            // Change button text
+            btn.innerHTML = "<span>🥳</span> Woohoo!";
+            btn.classList.add('scale-90', 'opacity-75'); // Visual feedback
+            
+            // Show hidden message
+            message.classList.add('reveal');
+
+            // Burst confetti logic
+            particles = []; // clear existing
+            
+            // Create Burst
+            for (let i = 0; i < 200; i++) {
+                const p = new Particle();
+                // Ensure burst starts from center on mobile too
+                p.y = height / 2; 
+                p.x = width / 2;  
+                
+                // Explode outwards
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 15 + 5;
+                p.speedX = Math.cos(angle) * velocity;
+                p.speedY = Math.sin(angle) * velocity;
+                
+                // Reset to "rain" mode for the animation loop
+                p.y = Math.random() * height * 1.5 - height; 
+                p.speedY = Math.random() * 5 + 3; 
+                p.speedX = Math.random() * 4 - 2;
+                particles.push(p);
+            }
+            
+            if (!animationId) {
+                animateConfetti();
+            }
+
+            // Optional: Simple vibration pattern for mobile
+            if (navigator.vibrate) {
+                navigator.vibrate([200]);
+            }
+        }
+    </script>
+</body>
+</html>
